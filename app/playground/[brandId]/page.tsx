@@ -4,18 +4,17 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
-  BarChart3,
   Bot,
-  CheckCircle2,
-  Clock3,
   FileSpreadsheet,
-  MessageSquareText,
   Play,
-  Radar,
   RefreshCcw,
   Sparkles,
-  Target,
-  UsersRound,
+  ChevronRight,
+  Send,
+  Mail,
+  Smartphone,
+  Info,
+  Radar,
 } from 'lucide-react';
 import {
   createFallbackContent,
@@ -31,6 +30,13 @@ import {
 } from '@/lib/mock-data';
 import { parseCustomerFile } from '@/lib/upload-parser';
 
+// Import Reusable UI Components
+import Navbar from '@/components/ui/Navbar';
+import Button from '@/components/ui/Button';
+import MetricCard from '@/components/ui/MetricCard';
+import AgentNode from '@/components/ui/AgentNode';
+import ModernTable from '@/components/ui/ModernTable';
+
 interface PageProps {
   params: {
     brandId: string;
@@ -43,7 +49,6 @@ type AgentStatus = 'idle' | 'running' | 'complete';
 interface AgentRun {
   id: AgentId;
   name: string;
-  icon: typeof Radar;
   description: string;
   status: AgentStatus;
 }
@@ -52,26 +57,22 @@ const agentDefinitions: Omit<AgentRun, 'status'>[] = [
   {
     id: 'opportunity',
     name: 'Opportunity Agent',
-    icon: Radar,
     description: 'Scans customer behavior for revenue opportunities and risk signals.',
   },
   {
     id: 'segmentation',
     name: 'Segmentation Agent',
-    icon: UsersRound,
     description: 'Builds actionable groups from purchase history and engagement.',
   },
   {
     id: 'strategy',
     name: 'Strategy Agent',
-    icon: Target,
     description: 'Recommends offer, channel, impact estimate, and sending guardrails.',
   },
   {
     id: 'content',
     name: 'Content Agent',
-    icon: MessageSquareText,
-    description: 'Generates campaign content with Groq when an API key is configured.',
+    description: 'Generates campaign content with AI when model keys are configured.',
   },
 ];
 
@@ -80,7 +81,9 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export default function BrandPlayground({ params }: PageProps) {
   const brand = getBrand(params.brandId);
   const [isRunning, setIsRunning] = useState(false);
-  const [agents, setAgents] = useState<AgentRun[]>(agentDefinitions.map((agent) => ({ ...agent, status: 'idle' })));
+  const [agents, setAgents] = useState<AgentRun[]>(
+    agentDefinitions.map((agent) => ({ ...agent, status: 'idle' }))
+  );
   const [opportunities, setOpportunities] = useState<OpportunityInsight[]>([]);
   const [segments, setSegments] = useState<Segment[]>([]);
   const [strategy, setStrategy] = useState<CampaignStrategy | null>(null);
@@ -89,14 +92,17 @@ export default function BrandPlayground({ params }: PageProps) {
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [uploadError, setUploadError] = useState('');
 
-  const metrics = useMemo(() => (customers.length > 0 ? getMetrics(customers) : null), [customers]);
+  const metrics = useMemo(
+    () => (customers.length > 0 ? getMetrics(customers) : null),
+    [customers]
+  );
 
   if (!brand || !metrics) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-dark px-6 text-white">
+      <main className="flex min-h-screen items-center justify-center bg-dark px-6 text-slate-800">
         <div className="text-center">
-          <h1 className="text-3xl font-semibold">Brand not found</h1>
-          <Link href="/playground" className="mt-6 inline-flex text-accent hover:text-accent-hover">
+          <h1 className="text-3xl font-bold text-slate-900">Brand not found</h1>
+          <Link href="/playground" className="mt-6 inline-flex text-indigo-600 font-semibold hover:text-indigo-700">
             Back to playground
           </Link>
         </div>
@@ -154,13 +160,13 @@ export default function BrandPlayground({ params }: PageProps) {
 
   async function runStep(agentId: AgentId, action: () => void | Promise<void>) {
     setAgents((current) =>
-      current.map((agent) => (agent.id === agentId ? { ...agent, status: 'running' } : agent)),
+      current.map((agent) => (agent.id === agentId ? { ...agent, status: 'running' } : agent))
     );
     await wait(850);
     await action();
     await wait(450);
     setAgents((current) =>
-      current.map((agent) => (agent.id === agentId ? { ...agent, status: 'complete' } : agent)),
+      current.map((agent) => (agent.id === agentId ? { ...agent, status: 'complete' } : agent))
     );
   }
 
@@ -198,62 +204,90 @@ export default function BrandPlayground({ params }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-dark text-white">
-      <header className="border-b border-white/10 bg-dark/95">
-        <div className="mx-auto max-w-7xl px-6 py-5">
-          <Link href="/playground" className="mb-5 inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white">
+    <main className="min-h-screen bg-dark text-slate-700 gradient-bg grid-bg pb-24">
+      {/* Premium Navbar */}
+      <Navbar showPlaygroundButton={false} />
+
+      {/* Header Panel */}
+      <header className="pt-28 pb-10 border-b border-slate-200/60 bg-white/70 backdrop-blur-sm">
+        <div className="mx-auto max-w-7xl px-6">
+          <Link 
+            href="/playground" 
+            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors mb-6"
+          >
             <ArrowLeft className="h-4 w-4" />
-            Back to brands
+            Back to Brands
           </Link>
+          
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">{brand.category}</p>
-              <h1 className="mt-3 text-4xl font-semibold md:text-6xl">{brand.name} Agent Run</h1>
-              <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-400">{brand.description}</p>
+              <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700 border border-indigo-100">
+                {brand.category}
+              </span>
+              <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+                {brand.name} Workspace
+              </h1>
+              <p className="mt-4 max-w-3xl text-sm md:text-base text-slate-500 leading-relaxed">
+                {brand.description}
+              </p>
             </div>
-            <div className="flex gap-3">
-              <button onClick={runAgents} disabled={isRunning} className="btn-primary inline-flex items-center gap-2 disabled:cursor-not-allowed disabled:opacity-60">
-                <Play className="h-5 w-5" />
-                {isRunning ? 'Running Agents' : 'Run Agents'}
-              </button>
-              <button onClick={resetRun} className="btn-secondary inline-flex items-center gap-2">
-                <RefreshCcw className="h-5 w-5" />
+            
+            <div className="flex gap-3 shrink-0">
+              <Button 
+                onClick={runAgents} 
+                disabled={isRunning} 
+                variant="primary"
+                icon={<Play className="h-4 w-4" />}
+              >
+                {isRunning ? 'Running Agents...' : 'Run Pipeline'}
+              </Button>
+              <Button 
+                onClick={resetRun} 
+                variant="secondary"
+                icon={<RefreshCcw className="h-4 w-4" />}
+              >
                 Reset
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        <section className="mb-8 rounded-xl border border-white/10 bg-white/[0.04] p-6">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+      {/* Main Workspace Section */}
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        
+        {/* Upload Custom Data Section */}
+        <section className="mb-10 rounded-xl border border-dashed border-slate-300 bg-white/50 p-6 transition-all hover:bg-white/80">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-start gap-4">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
-                <FileSpreadsheet className="h-6 w-6" />
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50/50 text-indigo-600">
+                <FileSpreadsheet className="h-5 w-5" />
               </span>
               <div>
-                <h2 className="text-2xl font-semibold">Upload Custom Customer Data</h2>
-                <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-400">
-                  Supports CSV, XLS, and XLSX files. Best columns: Customer Name, Email, Phone, Last Purchase Date,
-                  Lifetime Spend, Orders Count, Preferred Category, Location, Engagement Score.
+                <h2 className="text-lg font-bold text-slate-800">Upload Custom Customer Dataset</h2>
+                <p className="mt-1 max-w-3xl text-xs md:text-sm text-slate-500 leading-relaxed">
+                  Analyze your own customer list. Supports CSV and XLSX files. Provide columns like: Customer Name, Email, Lifetime Spend, Orders, Preferred Category, Location, Engagement Score.
                 </p>
+                
                 {uploadedFileName && (
-                  <p className="mt-3 text-sm text-accent">
-                    Analyzing uploaded file: {uploadedFileName}
-                  </p>
+                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-indigo-50 border border-indigo-100 px-3 py-1 text-xs text-indigo-700 font-semibold font-mono">
+                    Active File: {uploadedFileName}
+                  </div>
                 )}
                 {uploadError && (
-                  <p className="mt-3 text-sm text-rose-300">
+                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-100 px-3 py-1 text-xs text-rose-700 font-semibold font-mono">
                     {uploadError}
-                  </p>
+                  </div>
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <label className="btn-primary inline-flex cursor-pointer items-center justify-center gap-2">
-                <FileSpreadsheet className="h-5 w-5" />
-                Upload File
+            
+            <div className="flex flex-row gap-3 shrink-0">
+              <label className="inline-flex cursor-pointer">
+                <span className="inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 select-none active:scale-[0.98] px-5 py-2.5 text-sm bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-700 hover:to-violet-700 shadow-sm hover:shadow-indigo-500/20">
+                  <FileSpreadsheet className="h-4 w-4 mr-2" />
+                  Upload File
+                </span>
                 <input
                   type="file"
                   accept=".csv,.xls,.xlsx,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -261,118 +295,183 @@ export default function BrandPlayground({ params }: PageProps) {
                   onChange={(event) => handleUpload(event.target.files?.[0])}
                 />
               </label>
-              <button onClick={restoreSampleData} className="btn-secondary inline-flex items-center justify-center">
+              <Button onClick={restoreSampleData} variant="secondary">
                 Use Sample Data
-              </button>
+              </Button>
             </div>
           </div>
         </section>
 
-        <div className="grid gap-4 md:grid-cols-5">
-          <MetricCard label="Total Customers" value={metrics.totalCustomers.toString()} />
-          <MetricCard label="Revenue" value={`Rs ${metrics.revenue.toLocaleString('en-IN')}`} />
-          <MetricCard label="Active" value={metrics.activeCustomers.toString()} />
-          <MetricCard label="Dormant" value={metrics.dormantCustomers.toString()} />
-          <MetricCard label="Repeat Rate" value={`${metrics.repeatPurchaseRate}%`} />
+        {/* Dashboard Metrics Grid */}
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-5 mb-10">
+          <MetricCard label="Total Customers" value={metrics.totalCustomers.toString()} glowColor="indigo" />
+          <MetricCard label="Total Revenue" value={`Rs ${metrics.revenue.toLocaleString('en-IN')}`} glowColor="indigo" />
+          <MetricCard label="Active Shoppers" value={metrics.activeCustomers.toString()} glowColor="cyan" />
+          <MetricCard label="Dormant Shoppers" value={metrics.dormantCustomers.toString()} glowColor="violet" />
+          <MetricCard label="Repeat rate" value={`${metrics.repeatPurchaseRate}%`} glowColor="emerald" />
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <section className="rounded-xl border border-white/10 bg-white/[0.04] p-6">
-            <div className="mb-6 flex items-center justify-between">
+        {/* Two-Column Agent Panel Grid */}
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+          
+          {/* Agent Step Pipeline Block */}
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium h-fit">
+            <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
-                <p className="text-sm text-slate-400">Sequential workflow</p>
-                <h2 className="text-2xl font-semibold">Agent Workflow</h2>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Collaborating Pipeline</p>
+                <h2 className="text-xl font-bold text-slate-800">Agent Flow</h2>
               </div>
-              <Sparkles className="h-6 w-6 text-accent" />
+              <Sparkles className="h-5 w-5 text-indigo-500 animate-pulse" />
             </div>
-            <div className="space-y-4">
+            
+            <div className="space-y-6">
               {agents.map((agent, index) => {
-                const Icon = agent.icon;
+                const Icon = agent.id === 'opportunity' ? Radar : agent.id === 'segmentation' ? Sparkles : agent.id === 'strategy' ? Bot : Send;
 
                 return (
-                  <div key={agent.id} className="relative rounded-lg border border-white/10 bg-dark-secondary p-4">
-                    {index < agents.length - 1 && <div className="absolute left-9 top-16 h-6 w-px bg-accent/30" />}
-                    <div className="flex items-start gap-4">
-                      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${agent.status === 'complete' ? 'bg-emerald-400/15 text-emerald-300' : agent.status === 'running' ? 'bg-accent/15 text-accent' : 'bg-slate-700 text-slate-300'}`}>
-                        {agent.status === 'complete' ? <CheckCircle2 className="h-5 w-5" /> : agent.status === 'running' ? <Clock3 className="h-5 w-5 animate-pulse" /> : <Icon className="h-5 w-5" />}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-3">
-                          <h3 className="font-semibold">{agent.name}</h3>
-                          <span className="rounded-full bg-white/5 px-2.5 py-1 text-xs capitalize text-slate-300">{agent.status}</span>
-                        </div>
-                        <p className="mt-1 text-sm leading-6 text-slate-400">{agent.description}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <AgentNode
+                    key={agent.id}
+                    name={agent.name}
+                    description={agent.description}
+                    status={agent.status}
+                    icon={Icon}
+                    isLast={index === agents.length - 1}
+                  />
                 );
               })}
             </div>
           </section>
 
-          <section className="rounded-xl border border-white/10 bg-white/[0.04] p-6">
-            <div className="mb-6 flex items-center justify-between">
+          {/* Outputs / Results Block */}
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-premium">
+            <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
-                <p className="text-sm text-slate-400">Agent outputs</p>
-                <h2 className="text-2xl font-semibold">Campaign Results</h2>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Measurable Deliverables</p>
+                <h2 className="text-xl font-bold text-slate-800">Campaign Results</h2>
               </div>
-              <Bot className="h-6 w-6 text-accent" />
+              <Bot className="h-5 w-5 text-indigo-500" />
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
+              {/* Step 1: Opportunities */}
               <OutputBlock title="Opportunity Insights" isEmpty={opportunities.length === 0}>
                 <div className="grid gap-3 sm:grid-cols-3">
                   {opportunities.map((insight) => (
-                    <div key={insight.label} className="rounded-lg bg-dark-secondary p-4">
-                      <p className="text-sm text-slate-400">{insight.label}</p>
-                      <p className="mt-2 text-3xl font-semibold text-accent">{insight.value}</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-400">{insight.detail}</p>
+                    <div 
+                      key={insight.label} 
+                      className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 transition-all duration-200 hover:border-indigo-150 hover:bg-white"
+                    >
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{insight.label}</span>
+                      <p className="mt-2 text-2xl font-bold text-indigo-600 font-mono">{insight.value}</p>
+                      <p className="mt-1 text-xs text-slate-500 leading-normal">{insight.detail}</p>
                     </div>
                   ))}
                 </div>
               </OutputBlock>
 
-              <OutputBlock title="Segments" isEmpty={segments.length === 0}>
+              {/* Step 2: Segments */}
+              <OutputBlock title="Target Segments" isEmpty={segments.length === 0}>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {segments.map((segment) => (
-                    <div key={segment.name} className="rounded-lg bg-dark-secondary p-4">
+                    <div 
+                      key={segment.name} 
+                      className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 transition-all duration-200 hover:border-indigo-150 hover:bg-white"
+                    >
                       <div className="flex items-start justify-between gap-3">
-                        <h3 className="font-semibold">{segment.name}</h3>
-                        <span className="rounded-full bg-accent/10 px-2.5 py-1 text-sm text-accent">{segment.count}</span>
+                        <h4 className="text-sm font-bold text-slate-800">{segment.name}</h4>
+                        <span className="rounded bg-indigo-50 border border-indigo-100 px-1.5 py-0.5 text-xs font-bold font-mono text-indigo-700">
+                          {segment.count}
+                        </span>
                       </div>
-                      <p className="mt-2 text-sm leading-6 text-slate-400">{segment.description}</p>
-                      <p className="mt-3 text-sm text-slate-300">Potential revenue: Rs {segment.potentialRevenue.toLocaleString('en-IN')}</p>
+                      <p className="mt-2 text-xs text-slate-500 leading-relaxed">{segment.description}</p>
+                      <p className="mt-3 text-xs font-bold text-slate-700">
+                        Value Estimate: Rs {segment.potentialRevenue.toLocaleString('en-IN')}
+                      </p>
                     </div>
                   ))}
                 </div>
               </OutputBlock>
 
-              <OutputBlock title="Strategy" isEmpty={!strategy}>
+              {/* Step 3: Strategy */}
+              <OutputBlock title="Activation Strategy" isEmpty={!strategy}>
                 {strategy && (
                   <div className="grid gap-3 sm:grid-cols-4">
-                    <MiniStat label="Segment" value={strategy.segment} />
+                    <MiniStat label="Audience" value={strategy.segment} />
                     <MiniStat label="Offer" value={strategy.offer} />
                     <MiniStat label="Channel" value={strategy.channel} />
                     <MiniStat label="Impact" value={strategy.expectedImpact} />
-                    <div className="rounded-lg bg-dark-secondary p-4 sm:col-span-4">
-                      <p className="text-sm text-slate-400">Guardrail</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-200">{strategy.guardrail}</p>
+                    <div className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 sm:col-span-4">
+                      <div className="flex items-center gap-1.5 text-indigo-600">
+                        <Info className="h-4 w-4 shrink-0" />
+                        <span className="text-xs font-bold uppercase tracking-wider">Operational Guardrail</span>
+                      </div>
+                      <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">{strategy.guardrail}</p>
                     </div>
                   </div>
                 )}
               </OutputBlock>
 
-              <OutputBlock title="Generated Content" isEmpty={!content}>
+              {/* Step 4: Content */}
+              <OutputBlock title="Generated Campaigns" isEmpty={!content}>
                 {content && (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between rounded-lg bg-dark-secondary p-4">
-                      <p className="text-sm text-slate-400">Source</p>
-                      <span className="rounded-full bg-accent/10 px-3 py-1 text-sm uppercase text-accent">{content.source}</span>
+                  <div className="space-y-4">
+                    {/* Source pill indicator */}
+                    <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/70 p-3 text-xs">
+                      <span className="font-semibold text-slate-500">Creative Engine Source</span>
+                      <span 
+                        className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider
+                          ${content.source === 'groq' ? 'bg-indigo-50 border border-indigo-100 text-indigo-700' : 'bg-slate-100 border border-slate-200 text-slate-600'}
+                        `}
+                      >
+                        {content.source}
+                      </span>
                     </div>
-                    <ContentCard label="WhatsApp Message" value={content.whatsapp} />
-                    <ContentCard label="Email Subject" value={content.emailSubject} />
-                    <ContentCard label="Email Body" value={content.emailBody} preserveLines />
-                    <ContentCard label="Push Notification" value={content.push} />
+
+                    {/* WhatsApp styled bubble mockup */}
+                    <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1 mb-2">
+                        WhatsApp Message
+                      </span>
+                      <div className="flex flex-col bg-[#E7F6E9] border border-[#d2edd6] rounded-2xl rounded-tr-none p-4 max-w-[90%] self-end shadow-sm">
+                        <span className="text-[10px] font-bold text-[#128C7E] mb-1">WhatsApp Campaign</span>
+                        <p className="text-xs md:text-sm text-[#2c3e50] leading-relaxed font-sans">{content.whatsapp}</p>
+                        <span className="text-[9px] text-[#748c77] text-right mt-1.5 font-mono">11:35 AM</span>
+                      </div>
+                    </div>
+
+                    {/* Push Notification styled banner mockup */}
+                    <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1 mb-2">
+                        Push Notification
+                      </span>
+                      <div className="bg-slate-900 text-white rounded-xl p-3.5 flex gap-3 shadow-md max-w-md border border-slate-800">
+                        <Smartphone className="h-5 w-5 text-indigo-400 mt-0.5 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold text-slate-100">{brand.name}</span>
+                            <span className="text-[9px] text-slate-500 font-mono">now</span>
+                          </div>
+                          <p className="text-xs text-slate-300 mt-0.5 leading-normal">{content.push}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Email Browser Styled Mockup */}
+                    <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1 mb-2">
+                        Email Campaign
+                      </span>
+                      <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+                        <div className="bg-slate-50 border-b border-slate-100 px-4 py-2.5 text-xs flex gap-2 items-center text-slate-400 font-sans">
+                          <Mail className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                          <span className="font-semibold text-slate-700">Subject:</span>
+                          <span className="text-slate-600 truncate font-medium">{content.emailSubject}</span>
+                        </div>
+                        <div className="p-5 text-xs md:text-sm text-slate-600 whitespace-pre-line leading-relaxed font-sans bg-white min-h-[120px]">
+                          {content.emailBody}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </OutputBlock>
@@ -380,68 +479,37 @@ export default function BrandPlayground({ params }: PageProps) {
           </section>
         </div>
 
-        <section className="mt-8 rounded-xl border border-white/10 bg-white/[0.04] p-6">
+        {/* Customer Database CRM Section */}
+        <section className="mt-12">
           <div className="mb-6 flex items-center gap-3">
-            <BarChart3 className="h-6 w-6 text-accent" />
-            <h2 className="text-2xl font-semibold">Customer Data</h2>
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-indigo-100 bg-indigo-50/50 text-indigo-600">
+              <FileSpreadsheet className="h-5 w-5" />
+            </span>
+            <div>
+              <h2 className="text-xl font-bold text-slate-800">Customer Records</h2>
+              <p className="text-xs text-slate-400 mt-0.5">List of customers loaded into the system for agent analysis.</p>
+            </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[850px] text-sm">
-              <thead>
-                <tr className="border-b border-white/10 text-left text-slate-400">
-                  <th className="px-4 py-3 font-medium">Name</th>
-                  <th className="px-4 py-3 font-medium">Last Purchase</th>
-                  <th className="px-4 py-3 font-medium">Lifetime Spend</th>
-                  <th className="px-4 py-3 font-medium">Orders</th>
-                  <th className="px-4 py-3 font-medium">Category</th>
-                  <th className="px-4 py-3 font-medium">Location</th>
-                  <th className="px-4 py-3 font-medium">Engagement</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customers.map((customer) => (
-                  <tr key={customer.id} className="border-b border-white/5 text-slate-200 hover:bg-white/[0.03]">
-                    <td className="px-4 py-3 font-medium text-white">{customer.name}</td>
-                    <td className="px-4 py-3">{customer.lastPurchaseDays} days ago</td>
-                    <td className="px-4 py-3">Rs {customer.lifetimeSpend.toLocaleString('en-IN')}</td>
-                    <td className="px-4 py-3">{customer.ordersCount}</td>
-                    <td className="px-4 py-3 text-accent">{customer.preferredCategory}</td>
-                    <td className="px-4 py-3">{customer.location}</td>
-                    <td className="px-4 py-3">
-                      <div className="h-2 w-24 overflow-hidden rounded-full bg-slate-800">
-                        <div className="h-full rounded-full bg-accent" style={{ width: `${customer.engagementScore}%` }} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ModernTable customers={customers} />
         </section>
       </section>
     </main>
   );
 }
 
-function MetricCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className="mt-3 text-2xl font-semibold text-white">{value}</p>
-    </div>
-  );
-}
-
 function OutputBlock({ title, isEmpty, children }: { title: string; isEmpty: boolean; children: React.ReactNode }) {
   return (
-    <div>
-      <h3 className="mb-3 text-lg font-semibold">{title}</h3>
+    <div className="transition-all duration-300">
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+        <ChevronRight className="h-4 w-4 text-indigo-500" />
+        {title}
+      </h3>
       {isEmpty ? (
-        <div className="rounded-lg border border-dashed border-white/15 bg-dark-secondary/60 p-5 text-sm text-slate-500">
-          Waiting for agent output.
+        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-6 text-center text-xs md:text-sm text-slate-400 font-medium">
+          Waiting for agent output...
         </div>
       ) : (
-        children
+        <div className="animate-fade-in">{children}</div>
       )}
     </div>
   );
@@ -449,18 +517,9 @@ function OutputBlock({ title, isEmpty, children }: { title: string; isEmpty: boo
 
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg bg-dark-secondary p-4">
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className="mt-2 font-semibold text-white">{value}</p>
-    </div>
-  );
-}
-
-function ContentCard({ label, value, preserveLines = false }: { label: string; value: string; preserveLines?: boolean }) {
-  return (
-    <div className="rounded-lg bg-dark-secondary p-4">
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className={`mt-2 text-sm leading-6 text-slate-100 ${preserveLines ? 'whitespace-pre-line' : ''}`}>{value}</p>
+    <div className="rounded-xl border border-slate-150 bg-slate-50/50 p-4">
+      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</span>
+      <p className="mt-1.5 text-xs md:text-sm font-bold text-slate-800">{value}</p>
     </div>
   );
 }
@@ -489,9 +548,10 @@ function textOrFallback(value: unknown, fallback: string) {
   }
 
   if (value && typeof value === 'object') {
-    const nested = (value as { message?: unknown; text?: unknown; body?: unknown }).message
-      ?? (value as { text?: unknown }).text
-      ?? (value as { body?: unknown }).body;
+    const nested =
+      (value as { message?: unknown; text?: unknown; body?: unknown }).message ??
+      (value as { text?: unknown }).text ??
+      (value as { body?: unknown }).body;
 
     if (typeof nested === 'string') {
       return nested;

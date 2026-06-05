@@ -1,15 +1,18 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
   BarChart3,
-  Bot,
   BrainCircuit,
   MessageSquareText,
   Radar,
   Sparkles,
 } from 'lucide-react';
+import Navbar from '@/components/ui/Navbar';
+import Button from '@/components/ui/Button';
+import GlowCard from '@/components/ui/GlowCard';
 
 const agents = [
   { name: 'Opportunity Agent', icon: Radar, copy: 'Finds growth moments hiding in customer data.' },
@@ -20,78 +23,82 @@ const agents = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-dark text-white">
-      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-dark/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/30 bg-accent/10">
-              <Bot className="h-5 w-5 text-accent" />
-            </span>
-            <span className="text-lg font-semibold">AgentOps Marketing</span>
-          </Link>
-          <div className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
-            <a href="#agents" className="hover:text-white">Agents</a>
-            <a href="#workflow" className="hover:text-white">Workflow</a>
-            <Link href="/playground" className="rounded-lg border border-accent/40 px-4 py-2 text-accent hover:bg-accent hover:text-dark">
-              Try Playground
-            </Link>
-          </div>
-        </div>
-      </nav>
+    <main className="min-h-screen overflow-hidden bg-dark text-slate-700 gradient-bg grid-bg">
+      {/* Premium Navbar */}
+      <Navbar />
 
-      <section className="relative min-h-screen px-6 pt-28">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(0,212,255,0.18),transparent_32%),linear-gradient(135deg,#0A0E27_0%,#101936_54%,#07111d_100%)]" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 pb-16 lg:grid-cols-[1.05fr_0.95fr]">
+      {/* Hero Section */}
+      <section className="relative min-h-screen px-6 pt-32 pb-20 flex flex-col justify-center">
+        {/* Soft violet radial blur decoration */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-indigo-500/5 blur-[120px] pointer-events-none -z-10" />
+        
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="max-w-4xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-4 py-2 text-sm text-accent">
-              <Sparkles className="h-4 w-4" />
-              Agentic Marketing Playground
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/50 px-4 py-2 text-xs font-semibold text-indigo-700 shadow-sm backdrop-blur-sm">
+              <Sparkles className="h-4 w-4 text-indigo-500 animate-pulse" />
+              Agentic Marketing Platform
             </div>
-            <h1 className="max-w-5xl text-5xl font-semibold leading-[1.02] tracking-normal md:text-7xl">
-              Manage AI Marketing Agents Instead of Marketing Campaigns
+            <h1 className="max-w-5xl text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-900 md:text-6xl lg:text-7xl">
+              Create autonomous agents that make <span className="text-gradient">personalised</span> marketing decisions.
             </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
-              Watch multiple AI agents collaborate to identify opportunities, create campaigns,
-              and generate customer engagement strategies.
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-slate-500 md:text-xl">
+              Delivers the right message, offer, and timing for every customer—automatically. Manage multiple AI agents that find opportunities, segment users, and write copy.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link href="/playground" className="btn-primary inline-flex items-center justify-center gap-2 text-base">
-                Try Playground
-                <ArrowRight className="h-5 w-5" />
+              <Link href="/playground" passHref>
+                <Button size="lg" variant="primary" icon={<ArrowRight className="h-5 w-5" />} iconPosition="right">
+                  Try Playground
+                </Button>
               </Link>
-              <a href="#workflow" className="btn-secondary inline-flex items-center justify-center text-base">
-                See Workflow
+              <a href="#workflow">
+                <Button size="lg" variant="secondary">
+                  See Workflow
+                </Button>
               </a>
             </div>
           </div>
 
+          {/* Interactive Live Demo Preview Box */}
           <div className="relative">
-            <div className="glass-effect rounded-xl p-5 shadow-2xl shadow-cyan-950/30">
-              <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+            {/* Ambient backdrop glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-violet-500/10 rounded-2xl blur-xl -z-10" />
+            
+            <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-xl backdrop-blur-md">
+              <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
                 <div>
-                  <p className="text-sm text-slate-400">Live demo run</p>
-                  <h2 className="text-xl font-semibold">SneakerHub Winback</h2>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Live Simulation Run</p>
+                  <h2 className="text-lg font-bold text-slate-800">SneakerHub Winback</h2>
                 </div>
-                <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-sm text-emerald-300">Running</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 border border-emerald-100 animate-pulse-slow">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Running
+                </span>
               </div>
+              
               <div className="space-y-4">
                 {agents.map((agent, index) => {
                   const Icon = agent.icon;
 
                   return (
-                    <div key={agent.name} className="rounded-lg border border-white/10 bg-white/[0.03] p-4">
+                    <div 
+                      key={agent.name} 
+                      className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-200 hover:border-indigo-100 hover:bg-white"
+                    >
                       <div className="flex items-start gap-4">
-                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-indigo-100 bg-indigo-50/50 text-indigo-600">
                           <Icon className="h-5 w-5" />
                         </span>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center justify-between gap-3">
-                            <h3 className="font-semibold">{agent.name}</h3>
-                            <span className="text-xs text-slate-400">0{index + 1}</span>
+                            <h3 className="font-semibold text-slate-800 text-sm">{agent.name}</h3>
+                            <span className="text-xs font-mono font-bold text-slate-400">0{index + 1}</span>
                           </div>
-                          <p className="mt-1 text-sm leading-6 text-slate-400">{agent.copy}</p>
-                          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-800">
-                            <div className="h-full rounded-full bg-accent" style={{ width: `${92 - index * 14}%` }} />
+                          <p className="mt-1 text-xs text-slate-500 leading-normal">{agent.copy}</p>
+                          <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-100">
+                            <div 
+                              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" 
+                              style={{ width: `${92 - index * 14}%` }} 
+                            />
                           </div>
                         </div>
                       </div>
@@ -104,46 +111,77 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="agents" className="border-y border-white/10 bg-[#090f1f] px-6 py-20">
+      {/* Agents Showcase Section */}
+      <section id="agents" className="border-y border-slate-100 bg-white px-6 py-24 relative">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">What is built</p>
-            <h2 className="mt-4 text-4xl font-semibold md:text-5xl">An always-on team of AI agents for retail growth</h2>
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+              Autonomous Modules
+            </span>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+              An always-on team of AI agents that run while you sleep.
+            </h2>
+            <p className="mt-4 text-base text-slate-500 leading-relaxed md:text-lg">
+              No static journeys. No manual loops. Just millions of micro-decisions, constantly improving your customer lifetime value.
+            </p>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-4">
+          <div className="mt-12 grid gap-6 md:grid-cols-4">
             {agents.map((agent) => {
               const Icon = agent.icon;
 
               return (
-                <article key={agent.name} className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
-                  <Icon className="mb-5 h-6 w-6 text-accent" />
-                  <h3 className="text-lg font-semibold">{agent.name}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-400">{agent.copy}</p>
-                </article>
+                <GlowCard key={agent.name} glowColor="indigo" className="flex flex-col h-full">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50/50 text-indigo-600 mb-5">
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <h3 className="text-lg font-bold text-slate-800">{agent.name}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-500">{agent.copy}</p>
+                </GlowCard>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section id="workflow" className="px-6 py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+      {/* Workflow Section */}
+      <section id="workflow" className="px-6 py-24 bg-dark">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr] items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">Workflow</p>
-            <h2 className="mt-4 text-4xl font-semibold">From customer data to campaign content</h2>
-            <p className="mt-5 leading-7 text-slate-400">
-              The playground shows each agent working in sequence, with measurable outputs at every step.
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+              Workflow
+            </span>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">
+              From customer data to campaign content.
+            </h2>
+            <p className="mt-4 text-slate-500 leading-relaxed">
+              Watch each agent work in sequence to generate measurable customer interactions at every stage of the loop.
             </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-5">
-            {['Customer Data', 'Opportunity', 'Segments', 'Strategy', 'Content'].map((step) => (
-              <div key={step} className="rounded-lg border border-white/10 bg-dark-secondary p-4 text-center text-sm font-medium">
-                {step}
-              </div>
+          <div className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full">
+            {['Customer Data', 'Opportunity', 'Segments', 'Strategy', 'Content'].map((step, idx) => (
+              <React.Fragment key={step}>
+                <div className="rounded-xl border border-slate-200 bg-white py-4 px-5 text-center text-sm font-bold text-slate-800 shadow-sm w-full sm:w-auto min-w-[110px] hover:border-indigo-300 hover:shadow-glow-indigo transition-all duration-200">
+                  {step}
+                </div>
+                {idx < 4 && (
+                  <ArrowRight className="h-5 w-5 text-slate-400 rotate-90 sm:rotate-0 my-2 sm:my-0 shrink-0" />
+                )}
+              </React.Fragment>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Minimal Footer */}
+      <footer className="border-t border-slate-100 bg-white py-12 px-6 text-center text-sm text-slate-400 font-medium">
+        <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded bg-indigo-50 text-indigo-600 border border-indigo-100 font-bold text-xs">A</span>
+            <span className="font-bold text-slate-700">AgentOps</span>
+          </div>
+          <p>© {new Date().getFullYear()} AgentOps Marketing Playground. Built for retail scale.</p>
+        </div>
+      </footer>
     </main>
   );
 }

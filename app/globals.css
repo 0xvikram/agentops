@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,51 +12,65 @@
 
 html {
   scroll-behavior: smooth;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
-  background-color: #0a0e27;
-  color: #ffffff;
+  background-color: #FAFAFC;
+  color: #0F172A; /* Slate 900 */
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1f3a;
+  background: #F1F3F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00d4ff;
-  border-radius: 4px;
+  background: #CBD5E1;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00b8d4;
+  background: #94A3B8;
 }
 
 /* Smooth gradient background */
 .gradient-bg {
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.08) 0%, rgba(255, 255, 255, 0) 70%), #FAFAFC;
+}
+
+.grid-bg {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
 }
 
 .glass-effect {
-  background: rgba(26, 31, 58, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 212, 255, 0.1);
-}
-
-.text-accent {
-  color: #00d4ff;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
 }
 
 .btn-primary {
-  @apply px-6 py-3 bg-accent text-dark font-semibold rounded-lg hover:bg-accent-hover transition-colors;
+  @apply px-5 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-md hover:shadow-indigo-500/10 active:scale-[0.98] select-none;
 }
 
 .btn-secondary {
-  @apply px-6 py-3 border border-accent text-accent font-semibold rounded-lg hover:bg-accent hover:text-dark transition-colors;
+  @apply px-5 py-2.5 border border-slate-200 bg-white text-slate-700 font-semibold rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 shadow-sm active:scale-[0.98] select-none;
 }
+
+/* Accent gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
