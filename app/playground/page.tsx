@@ -16,13 +16,13 @@ export default function Playground() {
         <div className="mx-auto max-w-7xl px-6">
           <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-accent transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
           <div className="mt-6 max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-bold text-indigo-700 border border-indigo-100 mb-4">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-accent border border-amber-100 mb-4">
               <Sparkles className="h-3.5 w-3.5" />
               Developer Playground
             </span>

@@ -19,7 +19,7 @@ export default function BrandCard({ id, name, category, description, accent, met
   return (
     <Link
       href={`/playground/${id}`}
-      className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-premium transition-all duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-glow-indigo"
+      className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-premium transition-all duration-200 hover:-translate-y-1 hover:border-amber-200 hover:shadow-glow-amber"
     >
       <div className="flex items-start justify-between gap-6">
         <div className="flex items-start gap-4">
@@ -35,11 +35,11 @@ export default function BrandCard({ id, name, category, description, accent, met
             <p className="mt-3 text-sm leading-relaxed text-slate-500">{description}</p>
           </div>
         </div>
-        <ArrowRight className="mt-2 h-5 w-5 shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-indigo-600" />
+        <ArrowRight className="mt-2 h-5 w-5 shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-accent" />
       </div>
 
       <div className="mt-8 grid grid-cols-3 gap-3">
-        <CardMetric icon={<UsersRound className="h-4 w-4 text-indigo-500" />} label="Customers" value={metrics.totalCustomers.toString()} />
+        <CardMetric icon={<UsersRound className="h-4 w-4 text-accent" />} label="Customers" value={metrics.totalCustomers.toString()} />
         <CardMetric label="Dormant" value={metrics.dormantCustomers.toString()} />
         <CardMetric label="Repeat" value={`${metrics.repeatPurchaseRate}%`} />
       </div>

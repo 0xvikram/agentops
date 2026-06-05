@@ -43,7 +43,7 @@ function statusClass(status: AgentNodeProps['status']) {
   }
 
   if (status === 'running') {
-    return 'border-indigo-100 bg-indigo-50 text-indigo-600';
+    return 'border-amber-100 bg-amber-50 text-[#d97706]';
   }
 
   return 'border-slate-200 bg-white text-slate-400';

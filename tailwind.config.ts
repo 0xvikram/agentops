@@ -11,9 +11,9 @@ const config: Config = {
         'dark': '#FAFAFC', // Page background
         'dark-secondary': '#FFFFFF', // Card panels
         'dark-tertiary': '#F1F3F5', // Accent background / border
-        'accent': '#6366f1', // Premium indigo
-        'accent-hover': '#4f46e5',
-        'accent-light': '#eef2ff', // Light indigo background
+        'accent': '#d97706', // Premium orange/amber
+        'accent-hover': '#b45309',
+        'accent-light': '#fffbeb', // Light amber background
         'agentops-purple': '#7c3aed',
         'agentops-violet': '#8b5cf6',
         'agentops-gray': '#64748b',
@@ -24,10 +24,11 @@ const config: Config = {
         mono: ['"Geist Mono"', 'monospace'],
       },
       boxShadow: {
-        'premium': '0 4px 30px rgba(0, 0, 0, 0.03)',
-        'glow-violet': '0 0 25px rgba(124, 58, 237, 0.15)',
-        'glow-indigo': '0 0 25px rgba(99, 102, 241, 0.15)',
+        'premium': '0 4px 30px rgba(0, 0, 0, 0.02)',
+        'glow-violet': '0 0 25px rgba(245, 158, 11, 0.15)',
+        'glow-indigo': '0 0 25px rgba(217, 119, 6, 0.15)',
         'glow-cyan': '0 0 25px rgba(6, 182, 212, 0.15)',
+        'glow-amber': '0 0 25px rgba(217, 119, 6, 0.15)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

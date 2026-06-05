@@ -102,7 +102,7 @@ export default function BrandPlayground({ params }: PageProps) {
       <main className="flex min-h-screen items-center justify-center bg-dark px-6 text-slate-800">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-slate-900">Brand not found</h1>
-          <Link href="/playground" className="mt-6 inline-flex text-indigo-600 font-semibold hover:text-indigo-700">
+          <Link href="/playground" className="mt-6 inline-flex text-accent font-semibold hover:text-accent-hover">
             Back to playground
           </Link>
         </div>
@@ -213,7 +213,7 @@ export default function BrandPlayground({ params }: PageProps) {
         <div className="mx-auto max-w-7xl px-6">
           <Link 
             href="/playground" 
-            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-accent transition-colors mb-6"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Brands
@@ -221,7 +221,7 @@ export default function BrandPlayground({ params }: PageProps) {
           
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <div>
-              <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700 border border-indigo-100">
+              <span className="inline-flex items-center rounded-md bg-amber-50 px-2 py-1 text-xs font-bold text-accent border border-amber-100">
                 {brand.category}
               </span>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
@@ -260,7 +260,7 @@ export default function BrandPlayground({ params }: PageProps) {
         <section className="mb-10 rounded-xl border border-dashed border-slate-300 bg-white/50 p-6 transition-all hover:bg-white/80">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-start gap-4">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50/50 text-indigo-600">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-100 bg-amber-50/50 text-accent">
                 <FileSpreadsheet className="h-5 w-5" />
               </span>
               <div>
@@ -270,7 +270,7 @@ export default function BrandPlayground({ params }: PageProps) {
                 </p>
                 
                 {uploadedFileName && (
-                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-indigo-50 border border-indigo-100 px-3 py-1 text-xs text-indigo-700 font-semibold font-mono">
+                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-100 px-3 py-1 text-xs text-accent font-semibold font-mono">
                     Active File: {uploadedFileName}
                   </div>
                 )}
@@ -284,7 +284,7 @@ export default function BrandPlayground({ params }: PageProps) {
             
             <div className="flex flex-row gap-3 shrink-0">
               <label className="inline-flex cursor-pointer">
-                <span className="inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 select-none active:scale-[0.98] px-5 py-2.5 text-sm bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-700 hover:to-violet-700 shadow-sm hover:shadow-indigo-500/20">
+                <span className="inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 select-none active:scale-[0.98] px-5 py-2.5 text-sm bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-700 hover:to-orange-700 shadow-sm hover:shadow-amber-500/20">
                   <FileSpreadsheet className="h-4 w-4 mr-2" />
                   Upload File
                 </span>
@@ -304,10 +304,10 @@ export default function BrandPlayground({ params }: PageProps) {
 
         {/* Dashboard Metrics Grid */}
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-5 mb-10">
-          <MetricCard label="Total Customers" value={metrics.totalCustomers.toString()} glowColor="indigo" />
-          <MetricCard label="Total Revenue" value={`Rs ${metrics.revenue.toLocaleString('en-IN')}`} glowColor="indigo" />
+          <MetricCard label="Total Customers" value={metrics.totalCustomers.toString()} glowColor="amber" />
+          <MetricCard label="Total Revenue" value={`Rs ${metrics.revenue.toLocaleString('en-IN')}`} glowColor="amber" />
           <MetricCard label="Active Shoppers" value={metrics.activeCustomers.toString()} glowColor="cyan" />
-          <MetricCard label="Dormant Shoppers" value={metrics.dormantCustomers.toString()} glowColor="violet" />
+          <MetricCard label="Dormant Shoppers" value={metrics.dormantCustomers.toString()} glowColor="orange" />
           <MetricCard label="Repeat rate" value={`${metrics.repeatPurchaseRate}%`} glowColor="emerald" />
         </div>
 
@@ -321,7 +321,7 @@ export default function BrandPlayground({ params }: PageProps) {
                 <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Collaborating Pipeline</p>
                 <h2 className="text-xl font-bold text-slate-800">Agent Flow</h2>
               </div>
-              <Sparkles className="h-5 w-5 text-indigo-500 animate-pulse" />
+              <Sparkles className="h-5 w-5 text-accent animate-pulse" />
             </div>
             
             <div className="space-y-6">
@@ -349,7 +349,7 @@ export default function BrandPlayground({ params }: PageProps) {
                 <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Measurable Deliverables</p>
                 <h2 className="text-xl font-bold text-slate-800">Campaign Results</h2>
               </div>
-              <Bot className="h-5 w-5 text-indigo-500" />
+              <Bot className="h-5 w-5 text-accent" />
             </div>
 
             <div className="space-y-8">
@@ -359,10 +359,10 @@ export default function BrandPlayground({ params }: PageProps) {
                   {opportunities.map((insight) => (
                     <div 
                       key={insight.label} 
-                      className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 transition-all duration-200 hover:border-indigo-150 hover:bg-white"
+                      className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 transition-all duration-200 hover:border-amber-250 hover:bg-white"
                     >
                       <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{insight.label}</span>
-                      <p className="mt-2 text-2xl font-bold text-indigo-600 font-mono">{insight.value}</p>
+                      <p className="mt-2 text-2xl font-bold text-accent font-mono">{insight.value}</p>
                       <p className="mt-1 text-xs text-slate-500 leading-normal">{insight.detail}</p>
                     </div>
                   ))}
@@ -375,11 +375,11 @@ export default function BrandPlayground({ params }: PageProps) {
                   {segments.map((segment) => (
                     <div 
                       key={segment.name} 
-                      className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 transition-all duration-200 hover:border-indigo-150 hover:bg-white"
+                      className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 transition-all duration-200 hover:border-amber-250 hover:bg-white"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <h4 className="text-sm font-bold text-slate-800">{segment.name}</h4>
-                        <span className="rounded bg-indigo-50 border border-indigo-100 px-1.5 py-0.5 text-xs font-bold font-mono text-indigo-700">
+                        <span className="rounded bg-amber-50 border border-amber-100 px-1.5 py-0.5 text-xs font-bold font-mono text-accent">
                           {segment.count}
                         </span>
                       </div>
@@ -401,7 +401,7 @@ export default function BrandPlayground({ params }: PageProps) {
                     <MiniStat label="Channel" value={strategy.channel} />
                     <MiniStat label="Impact" value={strategy.expectedImpact} />
                     <div className="rounded-xl border border-slate-150 bg-slate-50/50 p-4 sm:col-span-4">
-                      <div className="flex items-center gap-1.5 text-indigo-600">
+                      <div className="flex items-center gap-1.5 text-accent">
                         <Info className="h-4 w-4 shrink-0" />
                         <span className="text-xs font-bold uppercase tracking-wider">Operational Guardrail</span>
                       </div>
@@ -420,7 +420,7 @@ export default function BrandPlayground({ params }: PageProps) {
                       <span className="font-semibold text-slate-500">Creative Engine Source</span>
                       <span 
                         className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider
-                          ${content.source === 'groq' ? 'bg-indigo-50 border border-indigo-100 text-indigo-700' : 'bg-slate-100 border border-slate-200 text-slate-600'}
+                          ${content.source === 'groq' ? 'bg-amber-50 border border-amber-100 text-accent' : 'bg-slate-100 border border-slate-200 text-slate-600'}
                         `}
                       >
                         {content.source}
@@ -445,7 +445,7 @@ export default function BrandPlayground({ params }: PageProps) {
                         Push Notification
                       </span>
                       <div className="bg-slate-900 text-white rounded-xl p-3.5 flex gap-3 shadow-md max-w-md border border-slate-800">
-                        <Smartphone className="h-5 w-5 text-indigo-400 mt-0.5 shrink-0" />
+                        <Smartphone className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-bold text-slate-100">{brand.name}</span>
@@ -482,7 +482,7 @@ export default function BrandPlayground({ params }: PageProps) {
         {/* Customer Database CRM Section */}
         <section className="mt-12">
           <div className="mb-6 flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-indigo-100 bg-indigo-50/50 text-indigo-600">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-amber-100 bg-amber-50/50 text-accent">
               <FileSpreadsheet className="h-5 w-5" />
             </span>
             <div>
@@ -501,7 +501,7 @@ function OutputBlock({ title, isEmpty, children }: { title: string; isEmpty: boo
   return (
     <div className="transition-all duration-300">
       <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
-        <ChevronRight className="h-4 w-4 text-indigo-500" />
+        <ChevronRight className="h-4 w-4 text-accent" />
         {title}
       </h3>
       {isEmpty ? (

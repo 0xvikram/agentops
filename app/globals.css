@@ -41,25 +41,23 @@ body {
 
 /* Smooth gradient background */
 .gradient-bg {
-  background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.08) 0%, rgba(255, 255, 255, 0) 70%), #FAFAFC;
+  background: radial-gradient(circle at 50% -20%, rgba(217, 119, 6, 0.08) 0%, rgba(255, 255, 255, 0) 70%), #FAFAFC;
 }
 
 .grid-bg {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(217, 119, 6, 0.06) 1.2px, transparent 1.2px);
 }
 
 .glass-effect {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.08);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
 }
 
 .btn-primary {
-  @apply px-5 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-md hover:shadow-indigo-500/10 active:scale-[0.98] select-none;
+  @apply px-5 py-2.5 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-all duration-200 shadow-md hover:shadow-amber-500/10 active:scale-[0.98] select-none;
 }
 
 .btn-secondary {
@@ -68,7 +66,7 @@ body {
 
 /* Accent gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #d97706 0%, #ea580c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
